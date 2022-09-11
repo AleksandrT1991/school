@@ -2,9 +2,11 @@ package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
+import java.util.Optional;
 
 
 @Service
@@ -26,11 +28,20 @@ public class StudentService {
     }
 
     public Student editStudent(Student student) {
-        return studentRepository.save(student);
+        Optional<Student> optional = studentRepository.findById(student.getId());
+        if (!optional.isPresent()) {
+            return null;
+        }
+        Student fromDb = optional.get();
+        fromDb.setName(student.getName());
+        return studentRepository.save(fromDb);
     }
 
     public void deleteStudent(long id) {
         studentRepository.deleteById(id);
     }
 
+    public  Student findByBetween (int age) {
+        return studentRepository.findByAgeBetween(age);
+    }
 }
