@@ -6,6 +6,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 
@@ -34,6 +35,7 @@ public class StudentService {
         }
         Student fromDb = optional.get();
         fromDb.setName(student.getName());
+        fromDb.setAge(student.getAge());
         return studentRepository.save(fromDb);
     }
 
@@ -41,7 +43,11 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public  Student findByBetween (int age) {
-        return studentRepository.findByAgeBetween(age);
+    public Collection <Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    public Collection <Student> findByBetween (int min, int max) {
+        return studentRepository.findByAgeBetween(min, max);
     }
 }
