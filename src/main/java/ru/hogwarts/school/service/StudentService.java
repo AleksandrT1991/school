@@ -1,6 +1,5 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -15,8 +14,10 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
+
     }
 
 
@@ -50,4 +51,14 @@ public class StudentService {
     public Collection <Student> findByBetween (int min, int max) {
         return studentRepository.findByAgeBetween(min, max);
     }
+
+    public Faculty getFacultyStudent (long id) {
+        Optional<Student> optional = studentRepository.findById(id);
+        if (!optional.isPresent()) {
+            return null;
+        }
+        Student fromDb = optional.get();
+        return fromDb.getFaculty();
+    }
+
 }
