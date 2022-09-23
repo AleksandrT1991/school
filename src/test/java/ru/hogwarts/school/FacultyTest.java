@@ -41,8 +41,8 @@ public class FacultyTest {
 
     @Test
     public void testFaculty() throws Exception {
-        String name = "√ËÙÙËÌ‰Ó‚";
-        String color = "«ÂÎÂÌ˚È";
+        String name = "–ì—Ä–∏—Ñ—Ñ–∏–Ω–¥–æ–≤";
+        String color = "–ó–µ–ª–µ–Ω—ã–π";
         long id = 1;
 
         Faculty faculty = new Faculty();
@@ -77,7 +77,7 @@ public class FacultyTest {
                 .andExpect(jsonPath("$.color").value(color));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/faculty/" + id)
+                        .get("/faculty/{id}" + id)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(id))
@@ -85,7 +85,7 @@ public class FacultyTest {
                 .andExpect(jsonPath("$[0].color").value(color));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/faculty?color=" + color)
+                        .get("/faculty" + color)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))

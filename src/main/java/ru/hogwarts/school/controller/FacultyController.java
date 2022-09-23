@@ -35,6 +35,8 @@ public class FacultyController {
         }
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
+
+
     @PostMapping
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return facultyService.addFaculty(faculty);
