@@ -59,4 +59,16 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/amountStudent")
+    public int getAmountStudent() {
+        return studentService.getAmountStudent();
+    }
+    @GetMapping("/averageAge")
+    public double getAverageAgeStudent() {
+        return studentService.getAverageAgeStudent();
+    }
+    @GetMapping("/lastStudent")
+    public Collection <Student> getLastStudent() {
+        return studentService.getLastStudent();
+    }
 }

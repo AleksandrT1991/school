@@ -52,7 +52,7 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
-//    public Faculty getFacultyStudent (long id) {
+    //    public Faculty getFacultyStudent (long id) {
 //        Optional<Student> optional = studentRepository.findById(id);
 //        if (!optional.isPresent()) {
 //            return null;
@@ -60,5 +60,13 @@ public class StudentService {
 //        Student fromDb = optional.get();
 //        return fromDb.getFaculty();
 //    }
-
+    public int getAmountStudent() {
+        return studentRepository.getAmountStudent();
+    }
+    public double getAverageAgeStudent() {
+        return studentRepository.getAverageAgeStudent();
+    }
+    public Collection <Student> getLastStudent () {
+        return studentRepository.getLastStudent();
+    }
 }

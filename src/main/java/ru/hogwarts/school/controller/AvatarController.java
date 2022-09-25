@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/avatar")
@@ -33,7 +35,6 @@ public class AvatarController {
         if (avatar.getSize() > 1024 * 300) {
             return ResponseEntity.badRequest().body("File is too big");
         }
-
         avatarService.uploadAvatar(id, avatar);
         return ResponseEntity.ok().build();
     }
@@ -63,4 +64,10 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
+
+    @GetMapping
+    public List<Avatar> getAvatarPage(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return avatarService.getAvatarPage(page, size);
+    }
+
 }
