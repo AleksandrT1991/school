@@ -24,9 +24,9 @@ public class Student {
 
     private Faculty faculty;
 
-    public Faculty getFaculty() {
-        return faculty;
-    }
+//    public Faculty getFaculty() {
+//        return faculty;
+//    }
 
     public Student() {
 

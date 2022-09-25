@@ -52,13 +52,13 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
-    public Faculty getFacultyStudent (long id) {
-        Optional<Student> optional = studentRepository.findById(id);
-        if (!optional.isPresent()) {
-            return null;
-        }
-        Student fromDb = optional.get();
-        return fromDb.getFaculty();
-    }
+//    public Faculty getFacultyStudent (long id) {
+//        Optional<Student> optional = studentRepository.findById(id);
+//        if (!optional.isPresent()) {
+//            return null;
+//        }
+//        Student fromDb = optional.get();
+//        return fromDb.getFaculty();
+//    }
 
 }

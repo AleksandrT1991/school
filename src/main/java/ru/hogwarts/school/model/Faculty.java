@@ -25,9 +25,9 @@ public class Faculty {
 
     private Collection <Student> student;
 
-    public Faculty() {
-
-    }
+//    public Faculty() {
+//
+//    }
 
     public long getId() {
         return id;
