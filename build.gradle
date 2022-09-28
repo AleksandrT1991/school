@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
+    id 'org.liquibase.gradle' version '2.1.1'
 }
 
 group = 'ru.hogwarts'
@@ -18,6 +19,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'org.postgresql:postgresql'
+    'org.liquibase:liquibase-core:jar:4.16.1'
+
 }
 
 tasks.named('test') {
