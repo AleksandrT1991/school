@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -19,15 +21,20 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
+    private final Logger logger = LoggerFactory.getLogger(FacultyService.class);
+
     public Faculty addFaculty(Faculty faculty) {
+        logger.info("Metod \"FacultyService.addFaculty()\" was called");
         return facultyRepository.save(faculty);
     }
 
 
     public Faculty findFaculty(long id) {
+        logger.info("Metod \"FacultyService.findFaculty()\" was called");
         return facultyRepository.findById(id).orElse(null);
     }
     public Faculty editFaculty(Faculty faculty) {
+        logger.info("Metod \"FacultyService.editFaculty()\" was called");
         Optional <Faculty> optional = facultyRepository.findById(faculty.getId());
         if (!optional.isPresent()) {
             return null;
@@ -38,12 +45,15 @@ public class FacultyService {
         return facultyRepository.save(fromDb);
     }
     public void deleteFaculty(long id) {
+        logger.info("Metod \"FacultyService.deleteFaculty()\" was called");
         facultyRepository.deleteById(id);
     }
     public Collection <Faculty> getAllFaculties() {
+        logger.info("Metod \"FacultyService.getAllFaculties()\" was called");
         return facultyRepository.findAll();
     }
     public Collection<Faculty> findByName(String name, String color) {
+        logger.info("Metod \"FacultyService.findByName()\" was called");
         return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
 //    public Collection<Student> getStudentFaculty (long id) {
