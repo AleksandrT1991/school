@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 
+import org.apache.el.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -10,8 +11,8 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
-
 
 
 @Service
@@ -82,5 +83,28 @@ public class StudentService {
     public Collection <Student> getLastStudent () {
         logger.info("Metod \"StudentService.getLastStudent()\" was called");
         return studentRepository.getLastStudent();
+
     }
+    public Collection <Student> getFirstLetterName () {
+        logger.info("Metod \"StudentService.getFirstLetterName()\" was called");
+        Collection<Student> collection = studentRepository.findAll();
+        Comparator<Student> comparatorName = new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+        return  collection.stream().map(Student::getName).map(String::toUpperCase).sorted(comparatorName);
+    }
+
+    public double getAverageAge() {
+        Collection<Student> collection = studentRepository.findAll();
+       double a = (double) collection.stream().mapToDouble(s -> s.getAge()).sum();
+       return a / collection.size();
+
+
+
+
+    }
+
 }

@@ -56,4 +56,9 @@ public class FacultyController {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("longnamefaculty")
+    public ResponseEntity longNameFaculty() {
+        facultyService.longNameFaculty();
+        return ResponseEntity.ok(longNameFaculty());
+    }
 }

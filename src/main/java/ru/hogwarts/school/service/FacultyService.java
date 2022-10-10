@@ -5,10 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -64,4 +65,16 @@ public class FacultyService {
 //        Faculty fromDb = optional.get();
 //        return fromDb.getStudent();
 //    }
+    public Collection <Faculty> longNameFaculty () {
+        logger.info("Metod \"FacultyService.longNameFaculty()\" was called");
+        Comparator<Faculty> compareName = new Comparator<Faculty>() {
+            @Override
+            public int compare(Faculty o1, Faculty o2) {
+                return o1.getName().length() - o2.getName().length();
+            }
+        };
+        List<Faculty> list = facultyRepository.findAll();
+        return list.stream().map(Faculty::getName).max(compareName);
+
+    }
 }
