@@ -12,7 +12,11 @@ import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.Conversions.toUpperCase;
 
 
 @Service
@@ -85,22 +89,17 @@ public class StudentService {
         return studentRepository.getLastStudent();
 
     }
-    public Collection <Student> getFirstLetterName () {
+    public Collection <String> getFirstLetterName (char ch) {
         logger.info("Metod \"StudentService.getFirstLetterName()\" was called");
         Collection<Student> collection = studentRepository.findAll();
-        Comparator<Student> comparatorName = new Comparator<Student>() {
-            @Override
-            public int compare(Student o1, Student o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        };
-        return  collection.stream().map(Student::getName).map(String::toUpperCase).sorted(comparatorName);
+        String letter = (ch + " ").toUpperCase();
+        return collection.stream().map(Student::getName).map(String::toUpperCase).
+                filter(s -> s.startsWith(letter)).sorted().collect(Collectors.toList());
     }
 
     public double getAverageAge() {
         Collection<Student> collection = studentRepository.findAll();
-       double a = (double) collection.stream().mapToDouble(s -> s.getAge()).sum();
-       return a / collection.size();
+        return collection.stream().mapToDouble(Student::getAge).average().orElseThrow(null);
 
 
 

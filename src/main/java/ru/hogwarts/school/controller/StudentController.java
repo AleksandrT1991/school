@@ -71,4 +71,13 @@ public class StudentController {
     public Collection <Student> getLastStudent() {
         return studentService.getLastStudent();
     }
+    @GetMapping("getFirstLetterName")
+    public Collection <String> getFirstLetterName(@RequestParam(name = "firstletter") char ch) {
+        return studentService.getFirstLetterName(ch);
+    }
+    @GetMapping("/getAverageAge() ")
+    public double getAverageAge() {
+        return studentService.getAverageAge();
+    }
+
 }

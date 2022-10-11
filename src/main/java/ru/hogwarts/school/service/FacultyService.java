@@ -65,7 +65,7 @@ public class FacultyService {
 //        Faculty fromDb = optional.get();
 //        return fromDb.getStudent();
 //    }
-    public Collection <Faculty> longNameFaculty () {
+    public String longNameFaculty () {
         logger.info("Metod \"FacultyService.longNameFaculty()\" was called");
         Comparator<Faculty> compareName = new Comparator<Faculty>() {
             @Override
@@ -74,7 +74,8 @@ public class FacultyService {
             }
         };
         List<Faculty> list = facultyRepository.findAll();
-        return list.stream().map(Faculty::getName).max(compareName);
+        return list.stream().max(compareName).orElse(null).getName();
 
     }
+
 }

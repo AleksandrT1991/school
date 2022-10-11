@@ -57,8 +57,7 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("longnamefaculty")
-    public ResponseEntity longNameFaculty() {
-        facultyService.longNameFaculty();
-        return ResponseEntity.ok(longNameFaculty());
+    public ResponseEntity <String> longNameFaculty() {
+        return ResponseEntity.ok(facultyService.longNameFaculty());
     }
 }
