@@ -10,10 +10,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.Conversions.toUpperCase;
@@ -23,6 +20,9 @@ import static org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.
 //@Profile("Production")
 public class StudentService {
 
+    public Integer count = 0;
+
+    public final Object flag = new Object();
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -37,7 +37,7 @@ public class StudentService {
     }
 
     public Student findStudent(long id) {
-        logger.info("Metod \"StudentService.findStudent()\" was called");
+
         return studentRepository.findById(id).orElse(null);
     }
 
@@ -92,18 +92,49 @@ public class StudentService {
     public Collection <String> getFirstLetterName (char ch) {
         logger.info("Metod \"StudentService.getFirstLetterName()\" was called");
         Collection<Student> collection = studentRepository.findAll();
-        String letter = (ch + " ").toUpperCase();
+        String letter = (ch + "").toUpperCase();
         return collection.stream().map(Student::getName).map(String::toUpperCase).
                 filter(s -> s.startsWith(letter)).sorted().collect(Collectors.toList());
     }
 
     public double getAverageAge() {
         Collection<Student> collection = studentRepository.findAll();
-        return collection.stream().mapToDouble(Student::getAge).average().orElseThrow(null);
-
-
-
-
+        return collection.stream().mapToDouble(Student::getAge).average().orElseThrow();
     }
 
+    public String outPrintLn() {
+       printHello (11);
+       printHello (12);
+       new Thread(() -> { printHello(13);
+                          printHello(24);
+       }).start();
+        new Thread(() -> { printHello(26);
+                           printHello(28);
+        }).start();
+       return null;
+
+    }
+    public void printHello(long id) {
+       Student student = findStudent(id);
+        System.out.println(student.getName());
+    }
+    public String outPrintLn1() {
+        printHello1 (11);
+        printHello1 (12);
+        new Thread(() -> { printHello1(13);
+            printHello1(24);
+        }).start();
+        new Thread(() -> { printHello1(26);
+            printHello1(28);
+        }).start();
+        return null;
+
+    }
+    public void printHello1(long id) {
+        synchronized (flag) {
+            Student student = findStudent(id);
+            System.out.println(student.getName() + " " + "Count" + " " + count);
+            count++;
+        }
+    }
 }

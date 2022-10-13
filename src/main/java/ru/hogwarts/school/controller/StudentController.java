@@ -75,9 +75,17 @@ public class StudentController {
     public Collection <String> getFirstLetterName(@RequestParam(name = "firstletter") char ch) {
         return studentService.getFirstLetterName(ch);
     }
-    @GetMapping("/getAverageAge() ")
+    @GetMapping("/getAverageAge")
     public double getAverageAge() {
         return studentService.getAverageAge();
     }
 
+    @GetMapping("/outPrintLn")
+    public String outPrintLn() {
+        return studentService.outPrintLn();
+    }
+    @GetMapping("/outPrintLn1")
+    public String outPrintLn1() {
+        return studentService.outPrintLn1();
+    }
 }
