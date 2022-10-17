@@ -1,28 +1,20 @@
 package ru.hogwarts.school.service;
 
 
-import org.apache.el.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.Conversions.toUpperCase;
-
 
 @Service
 //@Profile("Production")
 public class StudentService {
 
-    public Integer count = 0;
-
-    public final Object flag = new Object();
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -103,38 +95,44 @@ public class StudentService {
     }
 
     public String outPrintLn() {
-       printHello (11);
-       printHello (12);
-       new Thread(() -> { printHello(13);
-                          printHello(24);
+        List <Student> list = studentRepository.getStudentById();
+                          printHello(list.get(0));
+                          printHello(list.get(1));
+       new Thread(() -> { printHello(list.get(2));
+                          printHello(list.get(3));
        }).start();
-        new Thread(() -> { printHello(26);
-                           printHello(28);
+
+        new Thread(() -> {printHello(list.get(4));
+                          printHello(list.get(5));
         }).start();
-       return null;
+
+       return " ";
 
     }
-    public void printHello(long id) {
-       Student student = findStudent(id);
-        System.out.println(student.getName());
+    public void  printHello(Student student) {
+        System.out.println(student);
     }
+
+
     public String outPrintLn1() {
-        printHello1 (11);
-        printHello1 (12);
-        new Thread(() -> { printHello1(13);
-            printHello1(24);
-        }).start();
-        new Thread(() -> { printHello1(26);
-            printHello1(28);
-        }).start();
-        return null;
+        List <Student> list = studentRepository.getStudentById();
+                           printHello1(list.get(0));
+                           printHello1(list.get(1));
+        Thread thread1 = new  Thread(() -> { printHello1(list.get(2));
+                           printHello1(list.get(3));
+        });
+        Thread thread2 = new Thread(() -> { printHello1(list.get(4));
+                           printHello1(list.get(5));
+        });
+        thread1.start();
+        thread2.start();
+
+        return " ";
 
     }
-    public void printHello1(long id) {
-        synchronized (flag) {
-            Student student = findStudent(id);
-            System.out.println(student.getName() + " " + "Count" + " " + count);
-            count++;
+    public void printHello1(Student student) {
+        synchronized (StudentService.class) {
+            System.out.println(student);
         }
     }
 }

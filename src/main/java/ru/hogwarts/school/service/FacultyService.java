@@ -74,7 +74,7 @@ public class FacultyService {
             }
         };
         List<Faculty> list = facultyRepository.findAll();
-        return list.stream().max(compareName).orElse(null).getName();
+        return list.stream().max(compareName).map(Faculty::getName).orElse(null);
 
     }
 
