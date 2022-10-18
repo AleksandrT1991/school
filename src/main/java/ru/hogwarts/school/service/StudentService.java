@@ -20,12 +20,13 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
+
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
 
     public Student addStudent(Student student) {
         logger.info("Metod \"StudentService.addStudent()\" was called");
-       return studentRepository.save(student);
+        return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
@@ -50,12 +51,12 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public Collection <Student> getAllStudents() {
+    public Collection<Student> getAllStudents() {
         logger.info("Metod \"StudentService.getAllStudents()\" was called");
         return studentRepository.findAll();
     }
 
-    public Collection <Student> findByBetween (int min, int max) {
+    public Collection<Student> findByBetween(int min, int max) {
         logger.info("Metod \"StudentService.findByBetween()\" was called");
         return studentRepository.findByAgeBetween(min, max);
     }
@@ -72,16 +73,19 @@ public class StudentService {
         logger.info("Metod \"StudentService.getAmountStudent()\" was called");
         return studentRepository.getAmountStudent();
     }
+
     public double getAverageAgeStudent() {
         logger.info("Metod \"StudentService.getAverageAgeStudent()\" was called");
         return studentRepository.getAverageAgeStudent();
     }
-    public Collection <Student> getLastStudent () {
+
+    public Collection<Student> getLastStudent() {
         logger.info("Metod \"StudentService.getLastStudent()\" was called");
         return studentRepository.getLastStudent();
 
     }
-    public Collection <String> getFirstLetterName (char ch) {
+
+    public Collection<String> getFirstLetterName(char ch) {
         logger.info("Metod \"StudentService.getFirstLetterName()\" was called");
         Collection<Student> collection = studentRepository.findAll();
         String letter = (ch + "").toUpperCase();
@@ -95,44 +99,61 @@ public class StudentService {
     }
 
     public String outPrintLn() {
-        List <Student> list = studentRepository.getStudentById();
-                          printHello(list.get(0));
-                          printHello(list.get(1));
-       new Thread(() -> { printHello(list.get(2));
-                          printHello(list.get(3));
-       }).start();
+        List<Student> list = studentRepository.getStudentById();
+        printHello(list.get(0));
+        printHello(list.get(1));
 
-        new Thread(() -> {printHello(list.get(4));
-                          printHello(list.get(5));
+        Thread thread = new Thread(() -> {
+            printHello(list.get(2));
+            printHello(list.get(3));
+        });
+        thread.start();
+        new Thread(() -> {
+            printHello(list.get(4));
+            printHello(list.get(5));
         }).start();
 
-       return " ";
-
+        return " ";
     }
-    public void  printHello(Student student) {
-        System.out.println(student);
+
+    public void printHello(Student student) {
+        try {
+            System.out.println(student);
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println("Прервано");
+        }
+
     }
 
 
     public String outPrintLn1() {
-        List <Student> list = studentRepository.getStudentById();
-                           printHello1(list.get(0));
-                           printHello1(list.get(1));
-        Thread thread1 = new  Thread(() -> { printHello1(list.get(2));
-                           printHello1(list.get(3));
-        });
-        Thread thread2 = new Thread(() -> { printHello1(list.get(4));
-                           printHello1(list.get(5));
-        });
-        thread1.start();
-        thread2.start();
+        List<Student> list = studentRepository.getStudentById();
+        printHello1(list.get(0));
+        printHello1(list.get(1));
+        new Thread(() -> {
+            printHello1(list.get(2));
+            printHello1(list.get(3));
+        }).start();
+        new Thread(() -> {
+            printHello1(list.get(4));
+            printHello1(list.get(5));
+        }).start();
+
+
 
         return " ";
 
     }
+
     public void printHello1(Student student) {
-        synchronized (StudentService.class) {
-            System.out.println(student);
-        }
+        try {
+                synchronized (StudentService.class) {
+                    System.out.println(student);
+                    Thread.sleep(2000);
+                }
+            } catch (InterruptedException e){
+                System.out.println("Прервано");
+            }
     }
 }
