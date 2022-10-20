@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 //@Profile("Production")
 public class StudentService {
 
+
+
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -23,6 +25,7 @@ public class StudentService {
 
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
+    public Integer count = 0;
 
     public Student addStudent(Student student) {
         logger.info("Metod \"StudentService.addStudent()\" was called");
@@ -100,15 +103,15 @@ public class StudentService {
 
     public String outPrintLn() {
         List<Student> list = studentRepository.getStudentById();
-        printHello(list.get(0));
-        printHello(list.get(1));
 
         Thread thread = new Thread(() -> {
+            printHello(list.get(1));
             printHello(list.get(2));
             printHello(list.get(3));
         });
         thread.start();
         new Thread(() -> {
+            printHello(list.get(0));
             printHello(list.get(4));
             printHello(list.get(5));
         }).start();
@@ -130,27 +133,25 @@ public class StudentService {
     public String outPrintLn1() {
         List<Student> list = studentRepository.getStudentById();
         printHello1(list.get(0));
-        printHello1(list.get(1));
         new Thread(() -> {
             printHello1(list.get(2));
             printHello1(list.get(3));
         }).start();
+        printHello1(list.get(1));
         new Thread(() -> {
             printHello1(list.get(4));
             printHello1(list.get(5));
         }).start();
 
-
-
         return " ";
-
     }
-
     public void printHello1(Student student) {
+
         try {
-                synchronized (StudentService.class) {
-                    System.out.println(student);
+                synchronized (StudentService.this) {
+                    System.out.println(student + " Count " + count);
                     Thread.sleep(2000);
+                    count++;
                 }
             } catch (InterruptedException e){
                 System.out.println("Прервано");
